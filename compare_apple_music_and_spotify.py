@@ -16,8 +16,12 @@ class apple_music_data_reader():
 
 
     def read_line_by_line(self):
+        data=""
+
         buf = io.StringIO(self.file_data)
-        return buf.readline().strip()
+        for a in buf:
+            data =data + a.strip()
+        return data
 
 if __name__ == "__main__":
     main()
