@@ -67,3 +67,7 @@ class get_apple_music_data(unittest.TestCase):
     #def test_lines_no_artist_or_Song(self):
 
 
+class spotify_data_parser(unittest.TestCase):
+
+    def test_open_file(self):
+        self.spotify_data_parser = music_compare.spotify_data_parser()

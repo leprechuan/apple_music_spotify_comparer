@@ -1,6 +1,6 @@
 import io
 import re
-
+import csv
 
 
 class apple_music_data_parser():
@@ -11,11 +11,9 @@ class apple_music_data_parser():
         self.one_song_and_artist = {}
         self.all_songs_and_artists = []
 
-
     def open_file(self):
         with open(self.file_name, "r") as f:
             return f.read()
-
 
     def read_line_by_line(self):
         data=""
@@ -63,3 +61,17 @@ class apple_music_data_parser():
 
 
 
+class spotify_data_parser():
+
+    def __init__(self,):
+        self.data=self.read_file()
+        #self.file_name = file_name
+        #self.file_data = self.open_file()
+        #self.one_song_and_artist = {}
+        #self.all_songs_and_artists = []
+
+    def read_file(self):
+        with open('random.csv') as csvfile:
+            readCSV = csv.reader(csvfile, delimiter=',')
+            for row in readCSV:
+                print(row[1],row[2])
