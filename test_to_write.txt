@@ -8,9 +8,9 @@ apple music:
     read one line from xml done
     read several lines
 	read one artist
-	read several artists
-	read one song
-	read several songs
+	read line without artist name
+	read one song from line
+	read one line without song
 	save data about one song + artist to dict
 	save data about several song + artist to dict
 

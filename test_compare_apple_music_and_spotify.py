@@ -11,6 +11,7 @@ class get_apple_music_data(unittest.TestCase):
     DATA_SEVERAL_LINES = dedent("""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">""")
 
+
     def setUp(self):
         self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
 
@@ -30,4 +31,12 @@ class get_apple_music_data(unittest.TestCase):
         self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
         self.assertEqual('''<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">''',self.apple_music_data_reader.read_line_by_line())
 
+    def test_read_one_artist(self):
+        self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
+        self.assertEqual('''Drew Goddard''',self.apple_music_data_reader.read_artist_name("""<key>Artist</key><string>Drew Goddard</string>"""))
+
+
+    def test_read_line_without_artist_name(self):
+        self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
+        self.assertEqual(None,self.apple_music_data_reader.read_artist_name('''<?xml version="1.0" encoding="UTF-8"?>'''))
 

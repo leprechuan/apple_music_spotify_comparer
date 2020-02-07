@@ -23,6 +23,13 @@ class apple_music_data_reader():
             data =data + a.strip()
         return data
 
+    def read_artist_name(self, line):
+        if "Artist" in line:
+            return "Drew Goddard"
+        else:
+            return None
+
+
 if __name__ == "__main__":
     main()
 
