@@ -5,10 +5,14 @@ replace '-' with space
 
 
 apple music:
-	read file correcly formated
+    read one line from xml
+    read several lines
 	read one artist
+	read several artists
 	read one song
-	save data to dict
+	read several songs
+	save data about one song + artist to dict
+	save data about several song + artist to dict
 
 spotify:
 	read file correcly formated
@@ -19,5 +23,5 @@ spotify:
 compare tester:
 check one artist that exists in both
 check one not in apple music
-check one not in spofify
+check one not in spotify
 check one that exists in both

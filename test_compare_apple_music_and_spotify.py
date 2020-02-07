@@ -147,3 +147,7 @@ class get_apple_music_data(unittest.TestCase):
 </dict>
 </plist>
 """, result)
+
+    def test_read_line_by_line(self):
+        result = music_compare.open_file("apple_music_library.xml")
+        self.assertEqual('''<?xml version="1.0" encoding="UTF-8"?>''',music_compare.read_line_by_line(self.DATA))
