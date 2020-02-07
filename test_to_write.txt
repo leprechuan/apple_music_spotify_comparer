@@ -1,0 +1,23 @@
+tests
+for both:
+open file
+replace '-' with space
+
+
+apple music:
+	read file correcly formated
+	read one artist
+	read one song
+	save data to dict
+
+spotify:
+	read file correcly formated
+	read one artist
+	read one song
+	save data to dict
+
+compare tester:
+check one artist that exists in both
+check one not in apple music
+check one not in spofify
+check one that exists in both
