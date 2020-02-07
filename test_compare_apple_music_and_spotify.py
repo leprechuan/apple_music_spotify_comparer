@@ -75,9 +75,12 @@ class get_apple_music_data(unittest.TestCase):
 """)
 
     @patch("builtins.open", mock_open(read_data=DATA))
-    def test_open_file(self):
-        result = music_compare.open_file("apple_music_library.xml")
+    def setUp(self):
+        self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
 
+    @patch("builtins.open", mock_open(read_data=DATA))
+    def test_open_file(self):
+        result = self.apple_music_data_reader.open_file()
         open.assert_called_once_with("apple_music_library.xml", "r")
         self.assertEqual(self.DATA, result)
         self.assertEqual("""<?xml version="1.0" encoding="UTF-8"?>
@@ -148,6 +151,9 @@ class get_apple_music_data(unittest.TestCase):
 </plist>
 """, result)
 
-    def test_read_line_by_line(self):
-        result = music_compare.open_file("apple_music_library.xml")
-        self.assertEqual('''<?xml version="1.0" encoding="UTF-8"?>''',music_compare.read_line_by_line(self.DATA))
+    def test_one_line(self):
+        self.assertEqual('''<?xml version="1.0" encoding="UTF-8"?>''',self.apple_music_data_reader.read_line_by_line())
+
+
+
+

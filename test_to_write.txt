@@ -5,7 +5,7 @@ replace '-' with space
 
 
 apple music:
-    read one line from xml
+    read one line from xml done
     read several lines
 	read one artist
 	read several artists
