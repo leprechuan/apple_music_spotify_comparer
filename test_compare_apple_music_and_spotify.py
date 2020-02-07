@@ -33,10 +33,19 @@ class get_apple_music_data(unittest.TestCase):
 
     def test_read_one_artist(self):
         self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
-        self.assertEqual('''Drew Goddard''',self.apple_music_data_reader.read_artist_name("""<key>Artist</key><string>Drew Goddard</string>"""))
+        self.assertEqual('''Drew Goddard''',self.apple_music_data_reader.read_artist("""<key>Artist</key><string>Drew Goddard</string>"""))
 
 
-    def test_read_line_without_artist_name(self):
+    def test_read_line_without_artist(self):
         self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
-        self.assertEqual(None,self.apple_music_data_reader.read_artist_name('''<?xml version="1.0" encoding="UTF-8"?>'''))
+        self.assertEqual(None,self.apple_music_data_reader.read_artist('''<?xml version="1.0" encoding="UTF-8"?>'''))
+
+    def test_read_line_one_song(self):
+        self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
+        self.assertEqual('''Sounds of a Playground Fading''',self.apple_music_data_reader.read_song("""<key>Name</key><string>Sounds of a Playground Fading</string>"""))
+
+
+    def test_read_line_withoput_song(self):
+        self.apple_music_data_reader = music_compare.apple_music_data_reader("apple_music_library.xml")
+        self.assertEqual(None,self.apple_music_data_reader.read_song('''<?xml version="1.0" encoding="UTF-8"?>'''))
 
