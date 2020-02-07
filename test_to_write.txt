@@ -23,7 +23,6 @@ spotify:
 	read one line without song
 	save data about one song
 	save data about one artist
-	save data about one song + artist to dict
 	save data about several songs+artist to dict
 
 compare tester:
