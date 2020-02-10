@@ -67,9 +67,13 @@ class get_apple_music_data(unittest.TestCase):
 class spotify_data_parser(unittest.TestCase):
     DATA_ONE_LINE = dedent("""﻿Spotify URI,Track Name,Artist Name,Album Name,Disc Number,Track Number,Track Duration (ms),Added By,Added At""")
 
+    def setUp(self):
+        self.file = tempfile.NamedTemporaryFile(mode='w', delete=True)
+
 
     @patch("builtins.open", mock_open(read_data=DATA_ONE_LINE))
     def test_open_file(self):
-        result = self.spotify_data_parser = music_compare.spotify_data_parser('metal.csv').data
-        open.assert_called_once_with("metal.csv", "r")
+        result = self.spotify_data_parser = music_compare.spotify_data_parser(self.file).data
+        open.assert_called_once_with(self.file, "r")
         self.assertEqual("""﻿Spotify URI,Track Name,Artist Name,Album Name,Disc Number,Track Number,Track Duration (ms),Added By,Added At""", result)
+

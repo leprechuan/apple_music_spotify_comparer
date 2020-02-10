@@ -65,10 +65,6 @@ class spotify_data_parser():
 
     def __init__(self,file_name):
         self.data=self.read_file(file_name)
-        #self.file_name = file_name
-        #self.file_data = self.open_file()
-        #self.one_song_and_artist = {}
-        #self.all_songs_and_artists = []
 
     def read_file(self,file_name):
         pass
