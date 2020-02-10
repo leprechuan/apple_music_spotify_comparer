@@ -63,15 +63,14 @@ class apple_music_data_parser():
 
 class spotify_data_parser():
 
-    def __init__(self,):
-        self.data=self.read_file()
+    def __init__(self,file_name):
+        self.data=self.read_file(file_name)
         #self.file_name = file_name
         #self.file_data = self.open_file()
         #self.one_song_and_artist = {}
         #self.all_songs_and_artists = []
 
-    def read_file(self):
-        with open('random.csv') as csvfile:
-            readCSV = csv.reader(csvfile, delimiter=',')
-            for row in readCSV:
-                print(row[1],row[2])
+    def read_file(self,file_name):
+        pass
+        with open(file_name, "r" ) as csvfile:
+            return csvfile.read()
