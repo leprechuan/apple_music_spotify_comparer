@@ -1,12 +1,4 @@
 spotify:
-    read one line from xml
-    read several lines
-	read one artist
-	read line without artist name
-	read one song from line
-	read one line without song
-	save data about one song
-	save data about one artist
 	save data about several songs+artist to dict
 
 compare tester:
@@ -14,7 +6,3 @@ check one song that exists in both
 check several songs that exists in both
 check one not in apple music
 check one not in spotify
-check one song that exists in both
-check several songs that exists in both
-check one artist and song that exist in both
-check several artists and songs that exist in both
