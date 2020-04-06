@@ -79,7 +79,7 @@ class spotify_data_parser(unittest.TestCase):
 
     def test_artist_found_on_line(self):
         lines_csv_dict_reader_formated = {
-            "Artist": "Avenged Sevenfold",
+            "Artist Name": "Avenged Sevenfold",
         }
         result= music_compare.spotify_data_parser().is_artist(lines_csv_dict_reader_formated)
         self.assertEqual(True,result)
