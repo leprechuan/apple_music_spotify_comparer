@@ -14,30 +14,31 @@ class get_apple_music_data(unittest.TestCase):
             mock_file.assert_called_with("/apple_music")
 
     def test_save_one_artist_from_line(self):
-        with patch("builtins.open", mock_open(read_data="""<key>Artist</key><string>Drew Goddard</string>""")):
+        with patch("builtins.open", mock_open(read_data="""<key>Sort Artist</key><string>Drew Goddard</string>""")):
             apple_music_data_parser = music_compare.AppleMusicDataParser()
             apple_music_data_parser.create("/apple_music")
             self.assertEqual("Drew Goddard", apple_music_data_parser.one_song_and_artist.get('Artist'))
 
     def test_save_one_song(self):
-        with patch("builtins.open", mock_open(read_data="""<key>Name</key><string>The Cabin In the Woods</string>""")):
+        with patch("builtins.open",
+                   mock_open(read_data="""<key>Sort Name</key><string>The Cabin In the Woods</string>""")):
             apple_music_data_parser = music_compare.AppleMusicDataParser()
             apple_music_data_parser.create("/apple_music")
             self.assertEqual("The Cabin In the Woods", apple_music_data_parser.one_song_and_artist.get('Song'))
 
     def test_save_one_song_and_artist(self):
-        with patch("builtins.open", mock_open(read_data="""<key>Artist</key><string>Drew Goddard</string>
-                                        <key>Name</key><string>The Cabin In the Woods</string>""")):
+        with patch("builtins.open", mock_open(read_data="""<key>Sort Artist</key><string>Drew Goddard</string>
+                                        <key>Sort Name</key><string>The Cabin In the Woods</string>""")):
             apple_music_data_parser = music_compare.AppleMusicDataParser()
             apple_music_data_parser.create("/apple_music")
             self.assertEqual([{'Artist': "Drew Goddard", 'Song': "The Cabin In the Woods"}],
                              apple_music_data_parser.all_songs_and_artists)
 
     def test_save_several_songs_and_artists(self):
-        with patch("builtins.open", mock_open(read_data='''<key>Name</key><string>The Cabin In the Woods</string>
-    <key>Artist</key><string>Drew Goddard</string>
-    <key>Name</key><string>Pulp Fiction</string>
-	<key>Artist</key><string>Quentin Tarantino</string>''')):
+        with patch("builtins.open", mock_open(read_data='''<key>Sort Name</key><string>The Cabin In the Woods</string>
+    <key>Sort Artist</key><string>Drew Goddard</string>
+    <key>Sort Name</key><string>Pulp Fiction</string>
+	<key>Sort Artist</key><string>Quentin Tarantino</string>''')):
             apple_music_data_parser = music_compare.AppleMusicDataParser()
             apple_music_data_parser.create("/apple_music")
         self.assertEqual([{'Artist': "Drew Goddard", 'Song': "The Cabin In the Woods"},
