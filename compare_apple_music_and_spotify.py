@@ -95,6 +95,8 @@ class apple_music_and_spotify_comparer():
     def __init__(self):
         self.spotify_lib = []
         self.apple_music_lib = []
+        self.missing_in_apple_music = []
+        self.missing_in_spotify = []
 
     def save_data_locally(self, spofity_path, apple_music_path):
         self.spotify_lib = spotify_data_parser().create(spofity_path)
@@ -116,8 +118,27 @@ class apple_music_and_spotify_comparer():
         self.save_data_locally(spotify_path, apple_music_path)
         for one_song in self.apple_music_lib:
             if self.is_in_spotify(one_song) is False:
-                print("song: " + one_song['Song'] + " by artist: " + one_song['Artist'] + " not found in spotify")
+                self.missing_in_spotify.append(one_song)
+
+                # print("song: " + one_song['Song'] + " by artist: " + one_song['Artist'] + " not found in spotify")
 
         for one_song in self.spotify_lib:
             if self.is_in_apple_music(one_song) is False:
-                print("song: " + one_song['Song'] + " by artist: " + one_song['Artist'] + " not found in apple music")
+                self.missing_in_apple_music.append(one_song)
+                # print("song: " + one_song['Song'] + " by artist: " + one_song['Artist'] + " not found in apple music")
+
+        self.print_missing_spotify()
+        self.print_missing_apple_music()
+
+    def print_missing_spotify(self):
+        if self.missing_in_spotify:
+            print("following songs not found in spotify:")
+            for a in self.missing_in_spotify:
+                print(a['Song'] + " by artist " + a['Artist'])
+            print()
+
+    def print_missing_apple_music(self):
+        if self.missing_in_apple_music:
+            print("following songs not found in apple_music:")
+            for a in self.missing_in_apple_music:
+                print(a['Song'] + " by artist " + a['Artist'])

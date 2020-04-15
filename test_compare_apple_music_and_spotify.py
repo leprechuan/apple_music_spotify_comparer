@@ -171,8 +171,9 @@ class apple_music_and_spotify_comparer(unittest.TestCase):
         apple_music.return_value = [{'Artist': 'test_artist', 'Song': 'test_song'}]
         with patch("builtins.print") as mock_print:
             self.comparer.find_matches("/spotify", "/apple_music")
-            mock_print.assert_called_once_with(
-                "song: test_song_no_match by artist: test_artist_no_match not found in apple music")
+            mock_print.assert_has_calls(
+                [call('following songs not found in apple_music:'),
+                 call('test_song_no_match by artist test_artist_no_match')])
 
     @patch.object(music_compare.spotify_data_parser, 'create')
     @patch.object(music_compare.AppleMusicDataParser, 'create')
@@ -182,7 +183,9 @@ class apple_music_and_spotify_comparer(unittest.TestCase):
                                     {'Artist': 'test_artist_no_match', 'Song': 'test_song_no_match'}]
         with patch("builtins.print") as mock_print:
             self.comparer.find_matches("/spotify", "/apple_music")
-            mock_print.assert_called_once_with("song: test_song by artist: test_artist not found in spotify")
+            mock_print.assert_has_calls([call('following songs not found in spotify:'),
+                                         call('test_song by artist test_artist'),
+                                         call()])
 
     @patch.object(music_compare.spotify_data_parser, 'create')
     @patch.object(music_compare.AppleMusicDataParser, 'create')
@@ -195,10 +198,11 @@ class apple_music_and_spotify_comparer(unittest.TestCase):
                                     {'Artist': 'test_artist2', 'Song': 'test_song2'}]
         with patch("builtins.print") as mock_print:
             self.comparer.find_matches("/spotify", "/apple_music")
-            self.assertEqual(2, mock_print.call_count)
+            self.assertEqual(3, mock_print.call_count)
             mock_print.assert_has_calls(
-                [call("song: test_song_no_match by artist: test_artist_no_match not found in apple music"),
-                 call("song: test_song_no_match2 by artist: test_artist_no_match2 not found in apple music")],
+                [call('following songs not found in apple_music:'),
+                 call('test_song_no_match by artist test_artist_no_match'),
+                 call('test_song_no_match2 by artist test_artist_no_match2')],
                 any_order=False)
 
     @patch.object(music_compare.spotify_data_parser, 'create')
@@ -212,8 +216,30 @@ class apple_music_and_spotify_comparer(unittest.TestCase):
                                 {'Artist': 'test_artist2', 'Song': 'test_song2'}]
         with patch("builtins.print") as mock_print:
             self.comparer.find_matches("/spotify", "/apple_music")
-            self.assertEqual(2, mock_print.call_count)
+            self.assertEqual(4, mock_print.call_count)
             mock_print.assert_has_calls(
-                [call("song: test_song_no_match by artist: test_artist_no_match not found in spotify"),
-                 call("song: test_song_no_match2 by artist: test_artist_no_match2 not found in spotify")],
+                [call('following songs not found in spotify:'),
+                 call('test_song_no_match by artist test_artist_no_match'),
+                 call('test_song_no_match2 by artist test_artist_no_match2'),
+                 call()],
                 any_order=False)
+
+    @patch.object(music_compare.spotify_data_parser, 'create')
+    @patch.object(music_compare.AppleMusicDataParser, 'create')
+    def test_print_several_songs_and_artists_when_some_songs_missing_in_spotify_and_in_apple_music(self, apple_music,
+                                                                                                   spotify):
+        apple_music.return_value = [{'Artist': 'test_artist', 'Song': 'test_song'},
+                                    {'Artist': 'test_artist_only_apple_music', 'Song': 'test_song_only_apple_music'}]
+        spotify.return_value = [{'Artist': 'test_artist', 'Song': 'test_song'},
+                                {'Artist': 'test_artist_only_spotify', 'Song': 'test_song_only_spotify'}]
+
+        with patch("builtins.print") as mock_print:
+            self.comparer.find_matches("/spotify", "/apple_music")
+            self.assertEqual(5, mock_print.call_count)
+            mock_print.assert_has_calls([call("following songs not found in spotify:"),
+                                         call('test_song_only_apple_music by artist test_artist_only_apple_music'),
+                                         call(),
+                                         call("following songs not found in apple_music:"),
+                                         call('test_song_only_spotify by artist test_artist_only_spotify')
+
+                                         ])
