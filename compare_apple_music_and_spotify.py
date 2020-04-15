@@ -12,15 +12,15 @@ class AppleMusicDataParser:
         self.all_songs_and_artists = []
 
     def read_file_data(self, file_name):
-        with open(file_name, "r") as f:
-            return f.read()
+        file = open(file_name, "r")
+        return file
 
     def is_artist(self, line):
-        if "Artist" in line:
+        if "Sort Artist" in line:
             return re.search(r'<string>(.*?)</string', line).group(1)
 
     def is_song(self, line):
-        if "Name" in line:
+        if "Sort Name" in line:
             return re.search(r'<string>(.*?)</string', line).group(1)
 
     def save_song(self, Name):
@@ -41,14 +41,11 @@ class AppleMusicDataParser:
         self.one_song_and_artist = {}
 
     def create(self, file_path):
-        data = ""
-        buf = io.StringIO(self.read_file_data(file_path))
-        for a in buf:
+        for a in self.read_file_data(file_path):
             self.save_if_artist(a)
             self.save_if_song(a)
             if 'Artist' in self.one_song_and_artist and 'Song' in self.one_song_and_artist:
                 self.save_song_and_artist()
-
         return self.all_songs_and_artists
 
 
@@ -59,9 +56,9 @@ class spotify_data_parser():
         self.one_song_and_artist = {}
 
     def read_file(self, csvfile):
-        with open(csvfile, "r", newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            return reader
+        file = open(csvfile, "r", newline='')
+        reader = csv.DictReader(file)
+        return reader
 
     def is_artist(self, data):
         return "Artist Name" in data
@@ -110,7 +107,7 @@ class apple_music_and_spotify_comparer():
 
     def match_found(self, lib, song):
         for a in lib:
-            if all(item in a.items() for item in song.items()) is True:
+            if any(item in a.items() for item in song.items()) is True:
                 return True
         return False
 
@@ -120,12 +117,9 @@ class apple_music_and_spotify_comparer():
             if self.is_in_spotify(one_song) is False:
                 self.missing_in_spotify.append(one_song)
 
-                # print("song: " + one_song['Song'] + " by artist: " + one_song['Artist'] + " not found in spotify")
-
         for one_song in self.spotify_lib:
             if self.is_in_apple_music(one_song) is False:
                 self.missing_in_apple_music.append(one_song)
-                # print("song: " + one_song['Song'] + " by artist: " + one_song['Artist'] + " not found in apple music")
 
         self.print_missing_spotify()
         self.print_missing_apple_music()
@@ -142,3 +136,8 @@ class apple_music_and_spotify_comparer():
             print("following songs not found in apple_music:")
             for a in self.missing_in_apple_music:
                 print(a['Song'] + " by artist " + a['Artist'])
+
+
+test = apple_music_and_spotify_comparer()
+
+test.find_matches("all.csv", "apple_music.xml")

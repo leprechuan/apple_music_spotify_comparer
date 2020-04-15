@@ -140,7 +140,7 @@ class spotify_data_parser(unittest.TestCase):
     def test_combine_several_songs_and_artists(self):
         with patch("builtins.open", mock_open(read_data='''Spotify URI,Track Name,Artist Name,Album Name,Disc Number,Track Number,Track Duration (ms),Added By,Added At
 "spotify:track:4UEo1b0wWrtHMC8bVqPiH8","Nightmare","Avenged Sevenfold","Nightmare","1","1","374453","spotify:user:","2010-10-17T20:18:40Z"
-"spotify:track:1d5UuboIPRMD4HaU3yycKC","Somewhere I Belong","Linkin Park","Meteora (Bonus Edition)","1","3","213933","spotify:user:","2010-10-17T20:24:25Z"''')) as mock_file:
+"spotify:track:1d5UuboIPRMD4HaU3yycKC","Somewhere I Belong","Linkin Park","Meteora (Bonus Edition)","1","3","213933","spotify:user:","2010-10-17T20:24:25Z"''')):
             self.spotify_data_parser = music_compare.spotify_data_parser()
             self.spotify_data_parser.create("/test_path")
         self.assertEqual([{'Artist': 'Avenged Sevenfold', 'Song': 'Nightmare'},
@@ -241,5 +241,4 @@ class apple_music_and_spotify_comparer(unittest.TestCase):
                                          call(),
                                          call("following songs not found in apple_music:"),
                                          call('test_song_only_spotify by artist test_artist_only_spotify')
-
                                          ])
